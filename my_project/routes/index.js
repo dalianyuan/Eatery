@@ -56,6 +56,15 @@ router.get('/orderList', function(req, res, next) {
   res.render('orderList', {});
 });
 
+/*添加新会员*/
+router.get('/vipAdd', function(req, res, next) {
+  res.render('vipAdd', {});
+});
+
+/*会员列表*/
+router.get('/vipList', function(req, res, next) {
+  res.render('vipList', {});
+});
 
 
 
