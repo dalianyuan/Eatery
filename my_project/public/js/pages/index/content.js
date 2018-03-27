@@ -1,51 +1,27 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<link rel="stylesheet" type="text/css" href="stylesheets/reset.css"/>
-		<!-- 引入 echarts.js -->
-    	<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.0.4/echarts.min.js"></script>
-		<style type="text/css">
-			body{
-			    background: url(../images/body_bj.jpg);
-			    padding: 10px;
-			    min-width: 773px;
-			}
-			h1{
-			    border-bottom: 1px solid #ccc;
-			    color: #333;
-			    font-weight: normal;
-			    padding: 7px 10px;
-			    margin: 0 0 10px 0;
-			    overflow: hidden;
-			}
-			h1>.span1{
-			    color: #4c4c4c;
-			    font-size: 18px;
-			    font-weight: normal;
-			}
-			h1>.span1>a:hover{
-				color: #eb8a3d;
-				text-decoration: underline;
-			}
-			#main{
-				width: 94%;
-				min-height: 500px;
-				padding: 80px 0 0 6%;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>
-			<span class="span1 left">
-				<a href="javascript:;">Eatery后台管理中心 </a>
-			</span>
-		</h1>
-		<div id="main"></div>
-	</body>
-	<script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
+function Content(contentContainer){
+	this.contentContainer = contentContainer;
+	this.init();
+}
+Content.template = `
+	<h1 class="h1Title">
+		<span class="span1 left">
+			<a href="javascript:;">Eatery后台管理中心 </a>
+		</span>
+	</h1>
+	<div id="main"></div>
+`;
+
+$.extend(Content.prototype, {
+	init: function(){
+		this.createDom();
+		this.showTable();
+	},
+	createDom: function(){
+		this.element = $(Content.template);
+		this.contentContainer.append(this.element);
+	},
+	showTable: function(){
+		// 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
 
         // 指定图表的配置项和数据
@@ -87,5 +63,5 @@
 
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
-    </script>
-</html>
+	}
+})

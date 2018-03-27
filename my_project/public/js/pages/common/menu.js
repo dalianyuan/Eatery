@@ -4,21 +4,21 @@ function Menu(menuContainer){
 }
 
 Menu.template =`
-	<div id="bar">
+	<div id="menuBar">
 		<p>
 			<span class="tab">导航菜单</span>
 		</p>
 	</div>
 	<div id="menu">
 		<ul id="menu-ul">
-			<li class="list1">
+			<li class="list1 special">
 				商品管理
 				<ul class="ul2">
 					<li>
-						<a href="/html/goods_list.html">商品列表</a>
+						<a href="/html/goods/goods_list.html">商品列表</a>
 					</li>
 					<li>
-						<a href="goodsAdd">添加新商品</a>
+						<a href="/html/goods/goods_add.html">添加新商品</a>
 					</li>
 					<li>
 						<a href="javascript:;">商品分类</a>
@@ -93,11 +93,11 @@ Menu.template =`
 					</li>
 				</ul>
 			</li>
-			<li class="list3">
+			<li class="list3 special">
 				订单管理
 				<ul class="ul2">
 					<li>
-						<a href="orderList">订单列表</a>
+						<a href="/html/order/order_list.html">订单列表</a>
 					</li>
 					<li>
 						<a href="javascript:;">订单查询</a>
@@ -133,14 +133,14 @@ Menu.template =`
 					</li>
 				</ul>
 			</li>
-			<li class="list5">
-				报表统计
+			<li class="list5 special">
+				职工管理
 				<ul class="ul2">
 					<li>
-						<a href="javascript:;">流量分析</a>
+						<a href="/html/employee/employee_list.html">职工列表</a>
 					</li>
 					<li>
-						<a href="javascript:;">客户统计</a>
+						<a href="/html/employee/employee_add.html">添加职工</a>
 					</li>
 					<li>
 						<a href="javascript:;">订单统计</a>
@@ -185,14 +185,14 @@ Menu.template =`
 					</li>
 				</ul>
 			</li>
-			<li class="list7">
+			<li class="list7 special">
 				会员管理
 				<ul class="ul2">
 					<li>
-						<a href="vipList">会员列表</a>
+						<a href="/html/vip/vip_list.html">会员列表</a>
 					</li>
 					<li>
-						<a href="vipAdd">添加会员</a>
+						<a href="/html/vip/vip_add.html">添加会员</a>
 					</li>
 					<li>
 						<a href="javascript:;">会员等级</a>
@@ -231,7 +231,7 @@ Menu.template =`
 					</li>
 				</ul>
 			</li>
-			<li class="list9">
+			<li class="list9 special">
 				店铺设置
 				<ul class="ul2">
 					<li>

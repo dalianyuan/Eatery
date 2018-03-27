@@ -1,12 +1,12 @@
 body{
 	/*background: #212121;*/
 }
-#bar{
+#menuBar{
     padding-left: 10px;
     height: 52px;
     background: #303030;
 }
-#bar .tab{
+#menuBar .tab{
     line-height: 51px;
     font-weight: bold;
     padding: 4px 15px 4px 18px;
@@ -104,7 +104,9 @@ body{
     text-decoration: none;
     color: #fff;
 }
-
+.special{
+	color: #fc0!important;
+}
 
 
 
