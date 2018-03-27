@@ -79,7 +79,7 @@ html,body{
 #nav li a>span.num{
     width: 32px;
     height: 16px;
-    background: url(../images/index-11_22.png) no-repeat scroll;
+    background: url(/images/index-11_22.png) no-repeat scroll;
     display: inline-block;
     line-height: 16px;
     vertical-align: middle;
@@ -92,4 +92,10 @@ html,body{
     border-right: 1px solid #656565;
     border-left: 1px solid #303030;
     margin-top: 15px;
+}
+#regist,#login{
+	line-height: 58px;
+	font-size: 16px;
+	font-weight: 900;
+	color: #FF3F3F!important;
 }

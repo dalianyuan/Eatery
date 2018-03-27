@@ -15,5 +15,4 @@ $.extend(Page.prototype, {
 		var menuContainer = $(".js-menu");
 		this.Menu = new Menu(menuContainer);
 	}
-	
 });
