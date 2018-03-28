@@ -36,7 +36,7 @@ $.extend(Regist.prototype, {
 	pswFlag: false,
 	init: function(){
 		this.createDom();
-		this.bindEvent();
+		this.bindEvents();
 	},
 	
 	createDom: function(){
@@ -45,10 +45,10 @@ $.extend(Regist.prototype, {
 		Container.append( this.element );
 	},
 	
-	bindEvent: function(){
-		var userIpt = $(".js-user");
-		var pswIpt = $(".js-psw");
-		var subBtn = $(".js-submit");
+	bindEvents: function(){
+		var userIpt = this.element.find(".js-user");
+		var pswIpt = this.element.find(".js-psw");
+		var subBtn = this.element.find(".js-submit");
 		userIpt.on("blur", $.proxy(this.handleUserBlur, this));
 		pswIpt.on("blur", $.proxy(this.handlePswBlur, this));
 		//$.proxy(this.handleSubBtn, this)
@@ -57,8 +57,8 @@ $.extend(Regist.prototype, {
 	},
 	
 	handleUserBlur: function(){
-		var username = $(".js-user").val();
-		var userTips = $(".js-user-tips");
+		var username = this.element.find(".js-user").val();
+		var userTips = this.element.find(".js-user-tips");
 		if( username.length < 4 ){
 			userTips.addClass("tipsNo").removeClass("tipsOk");
 			userTips.html("用户名至少由4位字符组成!");
@@ -71,8 +71,8 @@ $.extend(Regist.prototype, {
 	},
 	
 	handlePswBlur: function(){
-		var password = $(".js-psw").val();
-		var pswTips = $(".js-psw-tips");
+		var password = this.element.find(".js-psw").val();
+		var pswTips = this.element.find(".js-psw-tips");
 		if( password.length < 6 ){
 			pswTips.addClass("tipsNo").removeClass("tipsOk");
 			pswTips.html("密码至少由6位字符组成!");
@@ -89,8 +89,8 @@ $.extend(Regist.prototype, {
 			alert( "请输入规范的用户名或密码" );
 			return;
 		}
-		var username = $(".js-user").val();
-		var password = $(".js-psw").val();
+		var username = this.element.find(".js-user").val();
+		var password = this.element.find(".js-psw").val();
 		$.ajax({
 			url: "/api/regist",
 			type: "post",
@@ -103,14 +103,14 @@ $.extend(Regist.prototype, {
 	},
 	
 	handleRegSuc: function(res){
-//		console.log( res );
+		console.log( res );
 		if( res && res.ret && res.data && res.data.regist ){
 			alert( "管理员注册成功,即将跳转到登录页面" );
 			location.href = "/html/login.html";
 		}else{
 			alert( "对不起,你注册的用户名已存在。换一个吧~" );
-			$(".js-user-tips").html("");
-			$(".js-psw-tips").html("");
+			this.element.find(".js-user-tips").html("");
+			this.element.find(".js-psw-tips").html("");
 		}
 	}
 });

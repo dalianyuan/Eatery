@@ -31,7 +31,7 @@ Content.template = `
 		</div>
 		<div id="form">
 			<!--添加商品,用ajax提交数据时不需要form表单-->
-			<form id="frm" action="/add_goods" method="post" enctype="multipart/form-data">
+			
 				<!--通用信息开始-->
 				<table class="tableOn">
 					<tr>
@@ -65,11 +65,11 @@ Content.template = `
 						<td>
 							<select name="goods_type">
 								<option value="">请选择：</option>
-								<option value="ss"熟食</option>
-								<option value="xb">饮品</option>
-								<option value="yf">凉菜</option>
-								<option value="hw">点心</option>
-								<option value="dz">小食</option>
+								<option value="">熟食</option>
+								<option value="">饮品</option>
+								<option value="">凉菜</option>
+								<option value="">点心</option>
+								<option value="">小食</option>
 							</select>
 							<a href="javascript:;" class="tianjia">添加分类</a>
 							<span class="xing">*</span>
@@ -78,7 +78,7 @@ Content.template = `
 					<tr>
 						<td class="label">本店价格：</td>
 						<td>
-							<input type="text" name="goods_price" class="left" value="79"/>
+							<input type="text" name="goods_price" id="goods_price" class="left" value="79"/>
 							<input class="price_btn left" type="button" value="按市场价计算" />
 							<span class="xing">*</span>
 						</td>
@@ -91,9 +91,9 @@ Content.template = `
 							会员价格：
 						</td>
 						<td>
-							注册用户<input class="w58" type="text" value="-1"/>
+							注册用户<input class="w58" type="text" value="0"/>
 							代销用户<input class="w58" type="text" value="-1"/>
-							vip<input class="w58" type="text" value="-1"/>
+							vip<input class="w58" type="text" value="-7"/>
 							<p class="notice">会员价格为-1时表示会员价按会员等级折扣率计算</p>
 						</td>
 					</tr>
@@ -118,7 +118,7 @@ Content.template = `
 							库存：
 						</td>
 						<td>
-							<input type="text" value="21"/>
+							<input type="text" name="goods_count" id="goods_count" value="21"/>
 						</td>
 					</tr>
 					<tr>
@@ -126,17 +126,17 @@ Content.template = `
 							<a href="javascript:;" class="tips" title="点击此处查看提示信息">
 								<img src="/images/notice.gif"/>
 							</a>
-							积分购买金额：
+							此商品可兑换积分：
 						</td>
 						<td>
 							<input type="text" value="0"/>
-							<p class="notice">(此处需填写金额)购买该商品时最多可以使用积分的金额</p>
+							<p class="notice">购买该商品时最多可以兑换的积分</p>
 						</td>
 					</tr>
 					<tr>
 						<td class="label">上传商品图片：</td>
 						<td>
-							<input type="file" name="pic" class="picFile" id="pic" value="未选择任何文件"/>
+							<input type="file" class="picFile" name="goods_pic" id="goods_pic" value="未选择任何文件"/>
 							<input type="text" name="goods_picUrl" class="picUrl" id="picUrl" value="商品图片外部URL"/>
 						</td>
 					</tr>
@@ -206,11 +206,11 @@ Content.template = `
 						<td>
 							<select name="">
 								<option value="">请选择商品类型</option>
-								<option value="ss">首饰</option>
-								<option value="xb">箱包</option>
-								<option value="yf">衣服</option>
-								<option value="hw">户外</option>
-								<option value="dz">电子产品</option>
+								<option value="">熟食</option>
+								<option value="">饮品</option>
+								<option value="">凉菜</option>
+								<option value="">点心</option>
+								<option value="">小食</option>
 							</select>
 							<p class="notice">请选择商品的所属类型，进而完善此商品的属性</p>
 						</td>
@@ -241,10 +241,10 @@ Content.template = `
 				
 				<!--确定和重置按钮-->
 				<div id="subBtn">
-					<button class="btn" id="btnOk" onclick="addGoods()">确定</button>
+					<button class="btn js-submit" id="btnOk">确定</button>
 					<button class="btn">重置</button>
 				</div>
-			</form>
+			
 		</div>
 	</div>
 	<!--添加商品主体部分结束-->
@@ -259,6 +259,7 @@ $.extend(Content.prototype, {
 	init: function(){
 		this.createDom();
 		this.tabChange();
+		this.bindEvents();
 	},
 	createDom: function(){
 		this.element = $(Content.template);
@@ -276,5 +277,39 @@ $.extend(Content.prototype, {
 		$( ".tips" ).click( function(){
 			$( this ).parent().parent().find( ".notice" ).toggle();
 		} )
+	},
+	bindEvents: function(){
+		var subBtn = this.element.find(".js-submit");
+		subBtn.on("click", $.proxy(this.handleSubClick, this));
+	},
+	handleSubClick: function(){
+		var goods_name = this.element.find("#goods_name").val();
+		var goods_price = this.element.find("#goods_price").val();
+		var goods_count = this.element.find("#goods_count").val();
+		var goods_pic = this.element.find("#goods_pic")[0].files[0];
+		
+		var formData = new FormData();
+		formData.append( "goods_name", goods_name );
+		formData.append( "goods_price", goods_price );
+		formData.append( "goods_count", goods_count );
+		formData.append( "goods_pic", goods_pic );
+		
+		$.ajax({
+			type:"post",
+			url:"/api/goods_add",
+			cache: false,
+			processData: false,
+			contentType: false,
+			data: formData,
+			success: $.proxy(this.handleGoodsAddSuc, this)
+		});
+	},
+	handleGoodsAddSuc: function(res){
+		if( res && res.ret && res.data && res.data.goods_add ){
+			alert( "商品添加成功,即将跳转到商品列表页" );
+			location.href = "/html/goods/goods_list.html";
+		}else{
+			alert( "对不起,您添加的商品已存在。换一个吧~" );
+		}
 	}
 })

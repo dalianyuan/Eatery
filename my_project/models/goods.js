@@ -1,19 +1,31 @@
-var mongoose = require( "mongoose" );
-var Schema = mongoose.Schema;
- 
+var mongoose = require( "../utils/database.js" );
+   
 /*创建文档定义*/
-var Goods = new Schema({
+var Goods = mongoose.model('goods', {
     goods_name  : String,//商品名称
-    goods_id    : { type: String, unique: true },//货号
     goods_price : String,//本店价格
-    count       : Number,//库存
-    goods_num   : Number,//虚拟销量
-    pic         : String,//商品图片
+    goods_count : Number,//库存
+    goods_pic   : String,//商品图片
     create_Date : { type: Date, default: Date.now }
 });
 
-/*创建model对象，与数据库中的文档（表）映射*/
-var GoodsModel = mongoose.model('goods', Goods);
-
-/*使用commonJS规范暴露接口*/
-module.exports = GoodsModel;
+module.exports = {
+	goods_add( goods_name, goods_price, goods_count, goods_pic, cb ){
+		var goods = new Goods({
+			goods_name: goods_name,
+			goods_price: goods_price,
+			goods_count: goods_count,
+			goods_pic: goods_pic
+		});
+		goods.save(function(err){
+			cb(err);
+		})
+	},
+	findGoods( findParams, cb){
+		Goods.findOne(findParams).then((result)=>{
+			cb( result );
+		}).catch(()=>{
+			cb("error");
+		})
+	}
+}

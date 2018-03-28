@@ -343,28 +343,33 @@ Menu.template =`
 $.extend(Menu.prototype, {
 	init: function(){
 		this.createDom();
-		this.handleClickMenu();
+		this.bindEvents();
 	},
 	createDom: function(){
 		this.element = $(Menu.template);
 		this.menuContainer.append(this.element);
 	},
-	handleClickMenu: function(){
-		$("li").click(function(e){
-			var e = e || event;
-			e.stopPropagation();
-		})
-		$( "#menu-ul>li" ).click( function(){
-			var picIndex = $(this).index() + 1;
-			if( $(this).children("ul").css("display") == "none"	){
-				$(this).css("background","#454545 url(/images/menu1_"+ picIndex +".png) 9px 0 no-repeat");
-			}else{
-				$(this).css("background","#575757 url(/images/menu_"+ picIndex +".png) 9px 0 no-repeat");
-			}
-			$(this).children("ul").toggle();
-		} )
-		$( "#menu-ul>li" ).hover(function(){
-			$( this ).css( "background-color", "#454545" ).siblings().css( "background-color", "#575757" );
-		})
+	bindEvents: function(){
+		var allLists = this.element.find("li");
+		var lists = this.element.find("#menu-ul>li");
+		allLists.on("click", this.handleStopLiClick);
+		lists.on("click", this.handleListsClick);
+		lists.on("hover", this.handleListsHover);
+	},
+	handleStopLiClick: function(e){
+		var e = e || event;
+		e.stopPropagation();
+	},
+	handleListsClick: function(){
+		var picIndex = $(this).index() + 1;
+		if( $(this).children("ul").css("display") == "none"	){
+			$(this).css("background","#454545 url(/images/menu1_"+ picIndex +".png) 9px 0 no-repeat");
+		}else{
+			$(this).css("background","#575757 url(/images/menu_"+ picIndex +".png) 9px 0 no-repeat");
+		}
+		$(this).children("ul").toggle();
+	},
+	handleListsHover: function(){
+		$( this ).css( "background-color", "#454545" ).siblings().css( "background-color", "#575757" );
 	}
 })
