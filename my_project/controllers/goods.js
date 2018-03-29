@@ -1,10 +1,10 @@
 const goodsModel = require("../models/goods.js");
-const crypto = require("crypto");
 
 module.exports = {
 	
 	goods_add: (req, res) => {
-		const { goods_name, goods_price, goods_count, goods_pic } = req.body;
+		const { goods_name, goods_price, goods_count } = req.body;
+		const goods_pic = req.file ? req.file.filename : "";
 		goodsModel.findGoods( {goods_name: goods_name}, ( result ) => {
 			if(result && result !== "error"){
 				res.json({
