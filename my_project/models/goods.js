@@ -48,5 +48,19 @@ module.exports = {
 		Goods.findByIdAndRemove(id, (err)=> {
 			cb(err);
 		})
+	},
+	goods_info(id, cb){
+		Goods.findById(id).then((result) => {
+			cb(result);
+		}).catch(() => {
+			cb("error");
+		})
+	},
+	goods_update(id, params, cb){
+		Goods.findByIdAndUpdate(id, params).then((result) => {
+			cb(result);
+		}).catch(() => {
+			cb("error");
+		})
 	}
 }

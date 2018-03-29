@@ -119,3 +119,8 @@ h1>.span4>a:hover{
     text-align: center;
 }
 /*商品列表底部结束*/
+
+/*点击修改弹出的模态框*/
+.modal-dialog{
+	margin: 180px auto!important;
+}

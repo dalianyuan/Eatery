@@ -83,13 +83,48 @@ Content.template = `
 
 	</div>
 	<!--商品列表显示结束-->
-
+	
 	<!--商品列表底部结束-->
 	<div id="footer">
 		共执行 9 个查询，用时 0.024190 秒，Gzip 已禁用，内存占用 3.580 MB <br/> 版权所有 © 2005-2018 上海商派软件有限公司，并保留所有权利。
 	</div>
 	<!--商品列表底部结束-->
 `;
+
+Content.ModelTemplate = `
+	
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="exampleModalLabel">修改商品信息</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	          <div class="form-group">
+	            <label for="recipient-name" class="control-label">商品名称:</label>
+	            <input type="text" class="form-control goods_name" id="recipient-name">
+	          </div>
+	          <div class="form-group">
+	            <label for="recipient-price" class="control-label">商品价格:</label>
+	            <input type="text" class="form-control goods_price" id="recipient-price">
+	          </div>
+	          <div class="form-group">
+	            <label for="recipient-count" class="control-label">商品库存:</label>
+	            <input type="text" class="form-control goods_count" id="recipient-count">
+	          </div>
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary js-ok">确认修改</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+`;
+
 
 $.extend(Content.prototype, {
 	init: function(){
@@ -99,7 +134,12 @@ $.extend(Content.prototype, {
 	},
 	createDom: function(){
 		this.element = $(Content.template);
+		this.model = $(Content.ModelTemplate);
 		this.contentContainer.append(this.element);
+		this.contentContainer.append(this.model);
+		this.goods_name = this.model.find(".goods_name");
+		this.goods_price = this.model.find(".goods_price");
+		this.goods_count = this.model.find(".goods_count");
 	},
 	showList: function(){
 		$.ajax({
@@ -155,7 +195,8 @@ $.extend(Content.prototype, {
 						<img src="/images/icon_view.gif" />
 					</a>
 					<a href="javascript:;" title="修改">
-						<img data-id="${res[i]._id}" class="js-change" src="/images/icon_edit.gif" />
+						<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+						data-id="${res[i]._id}" class="js-change" src="/images/icon_edit.gif" />
 					</a>
 					<a href="javascript:;"" title="删除">
 						<img data-id="${res[i]._id}" class="js-del" src="/images/icon_trash.gif" />
@@ -175,9 +216,10 @@ $.extend(Content.prototype, {
 	bindEvents: function(){
 		var pageContainer = this.element.find(".js-pagination");
 		var operateContainer = this.element.find(".js-tbody");
+		var updateBtn = this.model.find(".js-ok");
 		pageContainer.on("click", $.proxy(this.handleChangePage, this));
 		operateContainer.on("click", $.proxy(this.handleItemOperate, this));
-		
+		updateBtn.on("click", $.proxy(this.handleItemUpdate, this));
 	},
 	handleChangePage: function(e){
 		this.page = e.target.innerHTML;
@@ -188,7 +230,12 @@ $.extend(Content.prototype, {
 		var isDelClick = target.hasClass("js-del");
 		var isChangeClick = target.hasClass("js-change");
 		if(isDelClick){
-			this.delItem( target.data("id") );
+			if(confirm("确认删除该商品吗?")){
+				this.delItem( target.data("id") );
+			}
+		}
+		if(isChangeClick){
+			this.changeItem( target.data("id") );
 		}
 	},
 	delItem: function(id){
@@ -206,6 +253,52 @@ $.extend(Content.prototype, {
 			this.showList();
 		}else{
 			alert("数据删除失败!");
+		}
+	},
+	changeItem: function(id){
+		$.ajax({
+			type:"get",
+			url:"/api/goods_info",
+			data: {
+				id: id
+			},
+			success: $.proxy(this.handleItemChangeSuc, this)
+		});
+	},
+	handleItemChangeSuc: function(res){
+		if(res && res.ret && res.data && res.data.goods_info){
+			var info = res.data.goods_info;
+			this.goods_name.val(info.goods_name);
+			this.goods_price.val(info.goods_price);
+			this.goods_count.val(info.goods_count);
+			this.id = info._id;
+		}
+	},
+	handleItemUpdate: function(){
+		var goods_name = this.goods_name.val();
+		var goods_price = this.goods_price.val();
+		var goods_count = this.goods_count.val();
+		
+		$.ajax({
+			type:"post",
+			url:"/api/goods_update",
+			data: {
+				goods_name: goods_name,
+				goods_price: goods_price,
+				goods_count: goods_count,
+				goods_id: this.id
+			},
+			success: $.proxy(this.handleItemUpdateSuc, this)
+		});
+	},
+	handleItemUpdateSuc: function(res){
+		if( res && res.ret && res.data && res.data.goods_update ){
+			$(".modal-backdrop").hide();
+			this.model.hide();
+			this.showList();
+			alert( "商品信息修改成功!" );
+		}else{
+			alert( "对不起,商品信息修改出现错误。" );
 		}
 	}
 })

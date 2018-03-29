@@ -57,6 +57,29 @@ module.exports = {
 				}
 			})
 		});
+	},
+	
+	goods_info: function(req, res){
+		goodsModel.goods_info(req.query.id, (result) => {
+			res.json({
+				ret: true,
+				data: {
+					goods_info: (result && result !== "error") ? result : false
+				}
+			})
+		});
+	},
+	
+	goods_update: function(req, res){
+		const { goods_name, goods_price, goods_count, goods_id } = req.body;
+		goodsModel.goods_update(goods_id, {goods_name, goods_price, goods_count}, (result) => {
+			res.json({
+				ret: true,
+				data: {
+					goods_update: (result && result !== "error") ? true : false
+				}
+			})
+		})
 	}
 	
 }
