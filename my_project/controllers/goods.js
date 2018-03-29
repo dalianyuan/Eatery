@@ -24,6 +24,39 @@ module.exports = {
 				});
 			}
 		} );
+	},
+	
+	goods_list: (req, res) => {
+		const {page, size} = req.query;
+		let totalPage = 0;
+		goodsModel.goods_list({}, (result) => {
+			if(result && result !== "error"){
+				totalPage = Math.ceil( result.length/size );
+				goodsModel.goods_list_page(page, size, (result) => {
+					res.json({
+						ret: true,
+						data: {
+							list: result,
+							totalPage: totalPage
+						}
+					})
+				})
+			}else{
+				console.log("数据库错误。");
+			}
+			
+		});
+	},
+	
+	goods_remove: function(req, res){
+		goodsModel.goods_remove(req.query.id, (err) => {
+			res.json({
+				ret: true,
+				data: {
+					goods_remove: !err
+				}
+			})
+		});
 	}
 	
 }

@@ -8,5 +8,8 @@ router.post( "/regist", userController.regist );
 router.post( "/login", userController.login );
 
 router.post( "/goods_add", upload.single('goods_pic'), goodsController.goods_add );
+router.get( "/goods_list", goodsController.goods_list );
+router.get( "/goods_remove", goodsController.goods_remove );
+
 
 module.exports = router;

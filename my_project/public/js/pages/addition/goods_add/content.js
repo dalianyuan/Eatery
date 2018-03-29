@@ -306,8 +306,11 @@ $.extend(Content.prototype, {
 	},
 	handleGoodsAddSuc: function(res){
 		if( res && res.ret && res.data && res.data.goods_add ){
-			alert( "商品添加成功,即将跳转到商品列表页" );
-			location.href = "/html/goods/goods_list.html";
+			if( !confirm( "商品添加成功!点击确定继续添加商品,点击取消将跳转到商品列表页。" ) ){
+				location.href = "/html/goods/goods_list.html";
+			}else{
+				this.element.find("#goods_name").val("");
+			}
 		}else{
 			alert( "对不起,您添加的商品已存在。换一个吧~" );
 		}

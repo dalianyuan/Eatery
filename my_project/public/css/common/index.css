@@ -2,6 +2,9 @@ html,body,#wrapper{
 	height: 100%;
 	overflow: hidden;
 }
+#wrapper{
+	background: url(/images/body_bj.jpg);
+}
 #Top {
 	width: 100%;
 	height: 118px;
@@ -32,11 +35,12 @@ html,body,#wrapper{
 }
 
 #Content {
-	height: 100%;
+	height: 83%;
 	margin-left: 14%;
 	background: url(/images/body_bj.jpg);
     padding: 10px;
     min-width: 773px;
+	overflow: auto;
 }
 .h1Title{
     border-bottom: 1px solid #ccc;

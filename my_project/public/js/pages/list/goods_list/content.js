@@ -1,5 +1,7 @@
 function Content(contentContainer){
 	this.contentContainer = contentContainer;
+	this.page = 1;
+	this.size = 5;
 	this.init();
 }
 Content.template = `
@@ -53,76 +55,29 @@ Content.template = `
 	<!--商品列表显示开始-->
 	<div id="list-div">
 		<table id="table" cellpadding="3" cellspacing="1">
-			<tr>
-				<th>商品图片</th>
-				<th>商品名称</th>
-				<th>价格</th>
-				<th>上架</th>
-				<th>新品</th>
-				<th>精品</th>
-				<th>热销</th>
-				<th>库存</th>
-				<th>操作</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>商品图片</th>
+					<th>商品名称</th>
+					<th>价格</th>
+					<th>新品</th>
+					<th>精品</th>
+					<th>热销</th>
+					<th>库存</th>
+					<th>操作</th>
+				</tr>
+			</thead>
 			
-			
-			<tr>
-				<td id="goods_img">
-					<img src="/images/pic6.jpg"/>
-				</td>
-				<td id="goods_name">
-					蓝莓华夫饼
-				</td>
-				<td>
-					￥32
-				</td>
-				<td>
-					<img src="/images/yes.gif" />
-				</td>
-				<td>
-					<img src="/images/no.gif" />
-				</td>
-				<td>
-					<img src="/images/yes.gif" />
-				</td>
-				<td>
-					<img src="/images/yes.gif" />
-				</td>
-				<td>
-					46
-				</td>
-				<td>
-					<a href="goods_detail/" target="_blank" title="查看">
-						<img src="/images/icon_view.gif" />
-					</a>
-					<a href="main" target="iframeContent" title="编辑">
-						<img src="/images/icon_edit.gif" />
-					</a>
-					<a href="javascript:;" title="复制">
-						<img src="/images/icon_copy.gif" />
-					</a>
-					<a href="javascript:;" title="回收站">
-						<img data-name="" data-id="" class="del" src="/images/icon_trash.gif" />
-					</a>
-				</td>
-			</tr>
-			
+			<tbody class="js-tbody"></tbody>
 		</table>
 
 		<!--列表下的页码开始-->
 		<div id="page">
-			总计 <span id="totalRecords" data-length="">24</span> 个记录&nbsp;分为 <span id="totalPages">3
-    		</span> 页&nbsp;当前第 <span id="pageCurrent">1</span> 页,每页
-			<input type="text" name="pageSize" id="pageSize" value="7" />
-			<span id="pageLink">
-    			<a href="javascript:;">第一页</a>
-    			<a href="javascript:;">上一页</a>
-    			<a href="javascript:;">下一页</a>
-    			<a href="javascript:;">最末页</a>
-    			<select name="gotoPage" id="gotoPage">
-    				<option value="1">1</option>
-    			</select>
-    		</span>
+			<nav aria-label="Page navigation">
+			    <ul class="pagination js-pagination">
+				    <li><a href="javascript:;">1</a></li>
+			    </ul>
+			</nav>
 		</div>
 		<!--列表下的页码结束-->
 
@@ -140,12 +95,117 @@ $.extend(Content.prototype, {
 	init: function(){
 		this.createDom();
 		this.showList();
+		this.bindEvents();
 	},
 	createDom: function(){
 		this.element = $(Content.template);
 		this.contentContainer.append(this.element);
 	},
 	showList: function(){
+		$.ajax({
+			type: "get",
+			url: "/api/goods_list",
+			data: {
+				page: this.page,
+				size: this.size
+			},
+			success: $.proxy(this.handleGoodsListSuc, this)
+		});
+	},
+	handleGoodsListSuc: function(res){
+//		console.log( res );
+		if(res && res.data && res.data.list){
+			this.createItems(res.data.list);
+			if( this.page > res.data.totalPage ){
+				this.page = res.data.totalPage;
+				this.showList();
+			}
+			this.createPages(res.data.totalPage);
+		}else{
+			alert("请求数据发生错误!");
+		}
+	},
+	createItems: function(res){
+		var tbodyStr = "";
+		for( var i = 0; i < res.length; i++ ){
+			tbodyStr += `<tr>
+				<td id="goods_img">
+					<img src="/uploads/${res[i].goods_pic}"/>
+				</td>
+				<td id="goods_name">
+					${res[i].goods_name}
+				</td>
+				<td>
+					￥${res[i].goods_price}
+				</td>
+				<td>
+					<img src="/images/no.gif" />
+				</td>
+				<td>
+					<img src="/images/yes.gif" />
+				</td>
+				<td>
+					<img src="/images/yes.gif" />
+				</td>
+				<td>
+					${res[i].goods_count}
+				</td>
+				<td>
+					<a href="javascript:;" title="查看">
+						<img src="/images/icon_view.gif" />
+					</a>
+					<a href="javascript:;" title="修改">
+						<img data-id="${res[i]._id}" class="js-change" src="/images/icon_edit.gif" />
+					</a>
+					<a href="javascript:;"" title="删除">
+						<img data-id="${res[i]._id}" class="js-del" src="/images/icon_trash.gif" />
+					</a>
+				</td>
+			</tr>`;
+		}
+		this.element.find(".js-tbody").html( tbodyStr );
+	},
+	createPages: function(length){
+		var pageStr = "";
+		for( var i = 1; i <= length; i++ ){
+			pageStr += `<li><a class="js-page" href="javascript:;">${i}</a></li>`;
+		}
+		this.element.find(".js-pagination").html( pageStr );
+	},
+	bindEvents: function(){
+		var pageContainer = this.element.find(".js-pagination");
+		var operateContainer = this.element.find(".js-tbody");
+		pageContainer.on("click", $.proxy(this.handleChangePage, this));
+		operateContainer.on("click", $.proxy(this.handleItemOperate, this));
 		
+	},
+	handleChangePage: function(e){
+		this.page = e.target.innerHTML;
+		this.showList();
+	},
+	handleItemOperate: function(e){
+		var target = $(e.target);
+		var isDelClick = target.hasClass("js-del");
+		var isChangeClick = target.hasClass("js-change");
+		if(isDelClick){
+			this.delItem( target.data("id") );
+		}
+	},
+	delItem: function(id){
+		$.ajax({
+			type:"get",
+			url:"/api/goods_remove",
+			data: {
+				id: id
+			},
+			success: $.proxy(this.handleItemDelSuc, this)
+		});
+	},
+	handleItemDelSuc: function(res){
+		if(res && res.data && res.data.goods_remove){
+			this.showList();
+		}else{
+			alert("数据删除失败!");
+		}
 	}
 })

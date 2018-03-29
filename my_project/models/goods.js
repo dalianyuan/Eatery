@@ -27,5 +27,26 @@ module.exports = {
 		}).catch(()=>{
 			cb("error");
 		})
+	},
+	goods_list(params, cb){
+		Goods.find(params).then((result) => {
+			cb(result);
+		}).catch(() => {
+			cb('error');
+		})
+	},
+	goods_list_page(page, size, cb){
+		page = parseInt(page, 10);
+		size = parseInt(size, 10);
+		Goods.find({}).limit(size).skip((page-1)*size).sort({create_Date: -1}).then((result) => {
+			cb(result);
+		}).catch(() => {
+			cb('error');
+		})
+	},
+	goods_remove(id, cb){
+		Goods.findByIdAndRemove(id, (err)=> {
+			cb(err);
+		})
 	}
 }
