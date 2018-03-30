@@ -62,5 +62,18 @@ module.exports = {
 		}).catch(() => {
 			cb("error");
 		})
+	},
+	goods_search(keywords, page, size, cb){
+		page = parseInt(page, 10);
+		size = parseInt(size, 10);
+		Goods.find({
+			goods_name: {
+				$regex: keywords
+			}
+		}).limit(size).skip((page-1)*size).sort({create_Date: -1}).then((result) => {
+			cb(result);
+		}).catch(() => {
+			cb('error');
+		})
 	}
 }

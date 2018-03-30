@@ -80,6 +80,25 @@ module.exports = {
 				}
 			})
 		})
+	},
+	
+	goods_search: function(req, res){
+		const {goods_keywords,page, size} = req.query;
+		let totalPage = 0;
+		goodsModel.goods_search(goods_keywords, page, size, (result) => {
+			if(result && result !== "error"){
+				totalPage = Math.ceil( result.length/size );
+				res.json({
+					ret: true,
+					data: {
+						list: result,
+						totalPage: totalPage
+					}
+				})
+			}else{
+				console.log("数据库错误。");
+			}
+		})
 	}
 	
 }

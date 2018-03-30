@@ -46,8 +46,8 @@ Content.template = `
 				<option value="">热销</option>
 			</select>
 			关键字
-			<input type="text" name="goods_keywords" id="goods_keywords" />
-			<button id="btn" onclick="search()">搜索</button>
+			<input type="text" name="goods_keywords" class="goods_keywords" />
+			<button id="btn" class="js-search">搜索</button>
 		<!--</form>-->
 	</div>
 	<!--商品列表搜索栏结束-->
@@ -217,9 +217,11 @@ $.extend(Content.prototype, {
 		var pageContainer = this.element.find(".js-pagination");
 		var operateContainer = this.element.find(".js-tbody");
 		var updateBtn = this.model.find(".js-ok");
+		var searchBtn = this.element.find(".js-search");
 		pageContainer.on("click", $.proxy(this.handleChangePage, this));
 		operateContainer.on("click", $.proxy(this.handleItemOperate, this));
 		updateBtn.on("click", $.proxy(this.handleItemUpdate, this));
+		searchBtn.on("click", $.proxy(this.handleItemSearch, this));
 	},
 	handleChangePage: function(e){
 		this.page = e.target.innerHTML;
@@ -299,6 +301,27 @@ $.extend(Content.prototype, {
 			alert( "商品信息修改成功!" );
 		}else{
 			alert( "对不起,商品信息修改出现错误。" );
+		}
+	},
+	handleItemSearch: function(){
+		var goods_keywords = this.element.find(".goods_keywords").val();
+		$.ajax({
+			type:"get",
+			url:"/api/goods_search",
+			data: {
+				goods_keywords: goods_keywords,
+				page: this.page,
+				size: this.size
+			},
+			success: $.proxy(this.handleItemSearchSuc, this)
+		});
+	},
+	handleItemSearchSuc: function(res){
+		if(res && res.data && res.data.list.length > 0){
+			this.handleGoodsListSuc(res);
+		}else{
+			alert("对不起,您搜索的商品不存在。");
+			this.element.find(".goods_keywords").val("");
 		}
 	}
 })
