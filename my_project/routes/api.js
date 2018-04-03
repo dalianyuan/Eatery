@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var userController = require('../controllers/user.js');
 var goodsController = require('../controllers/goods.js');
+var employeeController = require('../controllers/employee.js');
 var upload = require('../utils/uploads.js');
 
 router.post( "/regist", userController.regist );
@@ -13,5 +14,7 @@ router.get( "/goods_remove", goodsController.goods_remove );
 router.get( "/goods_info", goodsController.goods_info );
 router.post( "/goods_update", goodsController.goods_update );
 router.get( "/goods_search", goodsController.goods_search );
+
+router.post( "/employee_add", upload.single('employee_pic'), employeeController.employee_add );
 
 module.exports = router;

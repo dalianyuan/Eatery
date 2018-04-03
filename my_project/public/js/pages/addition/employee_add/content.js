@@ -91,7 +91,7 @@ Content.template = `
 					<tr>
 						<td class="label">职工职位：</td>
 						<td>
-							<select name="employee_type">
+							<select id="employee_type" name="employee_type">
 								<option value="">请选择：</option>
 								<option value="manager">店长</option>
 								<option value="chef">主厨</option>
@@ -122,7 +122,7 @@ Content.template = `
 					<tr>
 						<td class="label">上传职工图片：</td>
 						<td>
-							<input type="file" name="pic" class="picFile" id="pic" value="未选择任何文件"/>
+							<input type="file" id="employee_pic" name="employee_pic" class="picFile" id="pic" value="未选择任何文件"/>
 						</td>
 					</tr>
 				</table>
@@ -166,6 +166,7 @@ $.extend(Content.prototype, {
 	init: function(){
 		this.createDom();
 		this.tabChange();
+		this.bindEvents();
 	},
 	createDom: function(){
 		this.element = $(Content.template);
@@ -183,5 +184,55 @@ $.extend(Content.prototype, {
 		$( ".tips" ).click( function(){
 			$( this ).parent().parent().find( ".notice" ).toggle();
 		} )
+	},
+	bindEvents: function(){
+		var subBtn = this.element.find(".js-submit");
+		subBtn.on("click", $.proxy(this.handleSubClick, this));
+	},
+	handleSubClick: function(){
+		var employee_id = this.element.find("#employee_id").val();
+		var employee_name = this.element.find("#employee_name").val();
+		var employee_sex = this.element.find("#employee_sex").val();
+		var employee_birth = this.element.find("#employee_birth").val();
+		var employee_address = this.element.find("#employee_address").val();
+		var employee_tel = this.element.find("#employee_tel").val();
+		var employee_type = this.element.find("#employee_type").val();
+		var employee_salary = this.element.find("#employee_salary").val();
+		var employee_time = this.element.find("#employee_time").val();
+		var employee_pic = this.element.find("#employee_pic")[0].files[0];
+		
+		var formData = new FormData();
+		formData.append( "employee_id", employee_id );
+		formData.append( "employee_name", employee_name );
+		formData.append( "employee_sex", employee_sex );
+		formData.append( "employee_birth", employee_birth );
+		formData.append( "employee_address", employee_address );
+		formData.append( "employee_tel", employee_tel );
+		formData.append( "employee_type", employee_type );
+		formData.append( "employee_salary", employee_salary );
+		formData.append( "employee_time", employee_time );
+		formData.append( "employee_pic", employee_pic );
+		
+		$.ajax({
+			type:"post",
+			url:"/api/employee_add",
+			cache: false,
+			processData: false,
+			contentType: false,
+			data: formData,
+			success: $.proxy(this.handleEmployeeAddSuc, this)
+		});
+	},
+	handleEmployeeAddSuc: function(res){
+		console.log(res)
+		if( res && res.ret && res.data && res.data.goods_add ){
+			if( !confirm( "职工添加成功!点击确定继续添加职工,点击取消将跳转到职工列表页。" ) ){
+				location.href = "/html/employee/employee_list.html";
+			}else{
+				this.element.find("#employee_name").val("");
+			}
+		}else{
+			alert( "对不起,您添加的职工已存在。继续添加下一个吧~" );
+		}
 	}
 })
