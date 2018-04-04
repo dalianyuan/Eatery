@@ -134,6 +134,9 @@ h1>.span4>a:hover{
     border-radius: 3px;
     outline: 0;
 }
+#form table .vip{
+	margin-right: 12px;
+}
 #form table .price_btn{
 	height: 22px;
 	margin: 0 8px;

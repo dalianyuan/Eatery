@@ -29,7 +29,6 @@ Content.template = `
 		</div>
 		<div id="form">
 			<!--添加商品,用ajax提交数据时不需要form表单-->
-			<form id="frm" action="/add_vip" method="post" enctype="multipart/form-data">
 				<!--通用信息开始-->
 				<table class="tableOn">
 					<tr>
@@ -61,7 +60,7 @@ Content.template = `
 					<tr>
 						<td class="label">会员等级：</td>
 						<td>
-							<select name="vip_grade">
+							<select name="vip_level" id="vip_level">
 								<option value="">请选择：</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -76,7 +75,7 @@ Content.template = `
 					<tr>
 						<td class="label">电子邮箱：</td>
 						<td>
-							<input type="text" name="vip_email" class="left" value=""/>
+							<input type="text" id="vip_email" class="left" value=""/>
 							<span class="xing">*</span>
 						</td>
 					</tr>
@@ -88,7 +87,8 @@ Content.template = `
 							是否认证：
 						</td>
 						<td>
-							<input type="text" name="vip_ok" class="left" value="是"/>
+							<label><input type="radio" name="vip_ok" id="vip_ok" class="left vip_ok" value="是" checked/><span class="left vip">是</span></label>
+							<label><input type="radio" name="vip_ok" id="vip_ok" class="left vip_ok" value="否"/><span class="left">否</span></label>
 						</td>
 					</tr>
 					<tr>
@@ -96,7 +96,7 @@ Content.template = `
 							等级积分：
 						</td>
 						<td>
-							<input type="text" value="900"/>
+							<input id="vip_grade" type="text" value="900"/>
 						</td>
 					</tr>
 					<tr>
@@ -107,25 +107,8 @@ Content.template = `
 							积分购买金额：
 						</td>
 						<td>
-							<input type="text" value="700"/>
+							<input id="vip_money" type="text" value="700"/>
 							<p class="notice">(此处需填写金额)购买该商品时最多可以使用积分的金额</p>
-						</td>
-					</tr>
-					<tr>
-						<td class="label">
-							注册时间：
-						</td>
-						<td>
-							<input type="text" value=""/>
-							<p class="notice">购买该商品时赠送消费积分数,-1表示按商品价格赠送</p>
-						</td>
-					</tr>
-					<tr>
-						<td class="label">上传vip认证照：</td>
-						<td>
-							<input type="file" name="pic" class="picFile" id="pic" value="未选择任何文件"/>
-							<img src="/images/no.gif"/><br/>
-							<input type="text" name="vip_picUrl" class="picUrl" id="picUrl" value="商品图片外部URL"/>
 						</td>
 					</tr>
 				</table>
@@ -168,10 +151,9 @@ Content.template = `
 				
 				<!--确定和重置按钮-->
 				<div id="subBtn">
-					<button class="btn" id="btnOk" onclick="addGoods()">确定</button>
+					<button class="btn js-submit" id="btnOk" >确定</button>
 					<button class="btn">重置</button>
 				</div>
-			</form>
 		</div>
 	</div>
 	<!--添加商品主体部分结束-->
@@ -186,6 +168,7 @@ $.extend(Content.prototype, {
 	init: function(){
 		this.createDom();
 		this.tabChange();
+		this.bindEvents();
 	},
 	createDom: function(){
 		this.element = $(Content.template);
@@ -203,5 +186,33 @@ $.extend(Content.prototype, {
 		$( ".tips" ).click( function(){
 			$( this ).parent().parent().find( ".notice" ).toggle();
 		} )
+	},
+	bindEvents: function(){
+		var subBtn = this.element.find(".js-submit");
+		subBtn.on("click", $.proxy(this.handleSubClick, this));
+	},
+	handleSubClick: function(){
+		$.ajax({
+			type:"post",
+			url:"/api/vip_add",
+			data: {
+				vip_num: this.element.find("#vip_num").val(),
+				vip_name: this.element.find("#vip_name").val(),
+				vip_email: this.element.find("#vip_email").val(),
+				vip_ok: this.element.find("#vip_ok").prop("checked"),
+				vip_money: this.element.find("#vip_money").val(),
+				vip_grade: this.element.find("#vip_grade").val()
+			},
+			success: $.proxy(this.handleVipAddSuc, this)
+		});
+	},
+	handleVipAddSuc: function(res){
+		if( res && res.ret && res.data && res.data.vip_add ){
+			if( !confirm( "会员添加成功!点击确定继续添加会员,点击取消将跳转到会员列表页。" ) ){
+				location.href = "/html/vip/vip_list.html";
+			}
+		}else{
+			alert( "对不起,该会员已存在。继续添加下一个吧~" );
+		}
 	}
 })

@@ -8,7 +8,7 @@ Content.template = `
 			<a href="javascript:;">Eatery后台管理中心 </a>
 		</span>
 	</h1>
-	<div id="main"></div>
+	<div id="canvas"></div>
 `;
 
 $.extend(Content.prototype, {
@@ -22,7 +22,7 @@ $.extend(Content.prototype, {
 	},
 	showTable: function(){
 		// 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
+        var myChart = echarts.init(document.getElementById('canvas'));
 
         // 指定图表的配置项和数据
         var option = {

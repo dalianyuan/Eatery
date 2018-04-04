@@ -3,10 +3,8 @@ const employeeModel = require("../models/employee.js");
 module.exports = {
 	
 	employee_add: (req, res) => {
-		console.log(req,res)
-		const { employee_name, employee_price, employee_count } = req.body;
-		const employee_pic = req.file ? req.file.filename : "";
-		employeeModel.findEmployee( {employee_name: employee_name}, ( result ) => {
+		req.body.employee_pic = req.file ? req.file.filename : "";
+		employeeModel.findEmployee( {employee_id: req.body.employee_id}, ( result ) => {
 			if(result && result !== "error"){
 				res.json({
 					ret: true,
@@ -15,7 +13,7 @@ module.exports = {
 					}
 				})
 			}else{
-				employeeModel.employee_add(employee_name, employee_price, employee_count, employee_pic, (err) => {
+				employeeModel.employee_add(req.body, (err) => {
 					res.json({
 						ret: true,
 						data: {
@@ -72,8 +70,7 @@ module.exports = {
 	},
 	
 	employee_update: function(req, res){
-		const { employee_name, employee_price, employee_count, employee_id } = req.body;
-		employeeModel.employee_update(employee_id, {employee_name, employee_price, employee_count}, (result) => {
+		employeeModel.employee_update(req.body.employee_id, req.body, (result) => {
 			res.json({
 				ret: true,
 				data: {

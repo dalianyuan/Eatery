@@ -39,7 +39,7 @@ Content.template = `
 						</td>
 						<td>
 							<input type="text" id="employee_id" name="employee_id"/>
-							<p class="notice">请务必输入正确的职工号。</p>
+							<p class="notice">请输入唯一的职工号。</p>
 						</td>
 					</tr>
 					<tr>
@@ -93,11 +93,11 @@ Content.template = `
 						<td>
 							<select id="employee_type" name="employee_type">
 								<option value="">请选择：</option>
-								<option value="manager">店长</option>
-								<option value="chef">主厨</option>
-								<option value="zhuli">主厨助理</option>
+								<option value="店长啊">店长</option>
+								<option value="chef(主厨)">主厨</option>
+								<option value="主厨助理">主厨助理</option>
 								<option value="waiter">服务员</option>
-								<option value="delivery">送餐员</option>
+								<option value="送餐员">送餐员</option>
 								<option value="cleaner">保洁人员</option>
 							</select>
 							<a href="javascript:;" class="tianjia">添加分类</a>
@@ -149,7 +149,7 @@ Content.template = `
 				
 				<!--确定和重置按钮-->
 				<div id="subBtn">
-					<button class="btn" id="btnOk" onclick="addemployee()">确定</button>
+					<button class="btn js-submit" id="btnOk">确定</button>
 					<button class="btn">重置</button>
 				</div>
 		</div>
@@ -224,15 +224,12 @@ $.extend(Content.prototype, {
 		});
 	},
 	handleEmployeeAddSuc: function(res){
-		console.log(res)
-		if( res && res.ret && res.data && res.data.goods_add ){
+		if( res && res.ret && res.data && res.data.employee_add ){
 			if( !confirm( "职工添加成功!点击确定继续添加职工,点击取消将跳转到职工列表页。" ) ){
 				location.href = "/html/employee/employee_list.html";
-			}else{
-				this.element.find("#employee_name").val("");
 			}
 		}else{
-			alert( "对不起,您添加的职工已存在。继续添加下一个吧~" );
+			alert( "对不起,该职工号已存在。继续添加下一个吧~" );
 		}
 	}
 })
