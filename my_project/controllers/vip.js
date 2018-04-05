@@ -25,7 +25,6 @@ module.exports = {
 	},
 	
 	vip_list: (req, res) => {
-		console.log(req.query)
 		const {page, size} = req.query;
 		let totalPage = 0;
 		vipModel.vip_list({}, (result) => {
@@ -47,7 +46,7 @@ module.exports = {
 		});
 	},
 	
-	/*vip_remove: function(req, res){
+	vip_remove: function(req, res){
 		vipModel.vip_remove(req.query.id, (err) => {
 			res.json({
 				ret: true,
@@ -97,6 +96,6 @@ module.exports = {
 				console.log("数据库错误。");
 			}
 		})
-	}*/
+	}
 	
 }

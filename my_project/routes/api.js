@@ -25,9 +25,9 @@ router.get( "/employee_search", employeeController.employee_search );
 
 router.post( "/vip_add", vipController.vip_add );
 router.get( "/vip_list", vipController.vip_list );
-//router.get( "/vip_remove", vipController.vip_remove );
-//router.get( "/vip_info", vipController.vip_info );
-//router.post( "/vip_update", vipController.vip_update );
-//router.get( "/vip_search", vipController.vip_search );
+router.get( "/vip_remove", vipController.vip_remove );
+router.get( "/vip_info", vipController.vip_info );
+router.post( "/vip_update", vipController.vip_update );
+router.get( "/vip_search", vipController.vip_search );
 
 module.exports = router;

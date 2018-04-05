@@ -332,7 +332,6 @@ $.extend(Content.prototype, {
 		});
 	},
 	handleItemUpdateSuc: function(res){
-		console.log(res)
 		if( res && res.ret && res.data && res.data.employee_update ){
 			$(".modal-backdrop").hide();
 			this.model.hide();
