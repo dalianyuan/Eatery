@@ -27,31 +27,10 @@ Menu.template =`
 						<a href="javascript:;">用户评论</a>
 					</li>
 					<li>
-						<a href="javascript:;">商品品牌</a>
-					</li>
-					<li>
-						<a href="javascript:;">商品回收站</a>
-					</li>
-					<li>
 						<a href="javascript:;">图片批量处理</a>
 					</li>
 					<li>
-						<a href="javascript:;">生成商品代码</a>
-					</li>
-					<li>
-						<a href="javascript:;">标签管理</a>
-					</li>
-					<li>
 						<a href="javascript:;">商品批量上传</a>
-					</li>
-					<li>
-						<a href="javascript:;">虚拟商品列表</a>
-					</li>
-					<li>
-						<a href="javascript:;">更改加密串</a>
-					</li>
-					<li>
-						<a href="javascript:;">商品自动上下架</a>
 					</li>
 				</ul>
 			</li>
@@ -100,19 +79,10 @@ Menu.template =`
 						<a href="/html/order/order_list.html">订单列表</a>
 					</li>
 					<li>
-						<a href="javascript:;">订单查询</a>
-					</li>
-					<li>
-						<a href="javascript:;">合并订单</a>
-					</li>
-					<li>
 						<a href="javascript:;">订单打印</a>
 					</li>
 					<li>
 						<a href="javascript:;">缺货登记</a>
-					</li>
-					<li>
-						<a href="javascript:;">添加订单</a>
 					</li>
 					<li>
 						<a href="javascript:;">发货单列表</a>
@@ -143,28 +113,10 @@ Menu.template =`
 						<a href="/html/employee/employee_add.html">添加职工</a>
 					</li>
 					<li>
-						<a href="javascript:;">订单统计</a>
-					</li>
-					<li>
 						<a href="javascript:;">销售概况</a>
 					</li>
 					<li>
-						<a href="javascript:;">会员排行</a>
-					</li>
-					<li>
 						<a href="javascript:;">销售明细</a>
-					</li>
-					<li>
-						<a href="javascript:;">搜索引擎</a>
-					</li>
-					<li>
-						<a href="javascript:;">销售排行</a>
-					</li>
-					<li>
-						<a href="javascript:;">访问购买率</a>
-					</li>
-					<li>
-						<a href="javascript:;">站外投放JS</a>
 					</li>
 				</ul>
 			</li>
@@ -173,15 +125,6 @@ Menu.template =`
 				<ul class="ul2">
 					<li>
 						<a href="javascript:;">文章分类</a>
-					</li>
-					<li>
-						<a href="javascript:;">文章列表</a>
-					</li>
-					<li>
-						<a href="javascript:;">文章自动发布</a>
-					</li>
-					<li>
-						<a href="javascript:;">在线调查</a>
 					</li>
 				</ul>
 			</li>
@@ -196,9 +139,6 @@ Menu.template =`
 					</li>
 					<li>
 						<a href="javascript:;">会员等级</a>
-					</li>
-					<li>
-						<a href="javascript:;">会员整合</a>
 					</li>
 					<li>
 						<a href="javascript:;">会员留言</a>
@@ -218,15 +158,6 @@ Menu.template =`
 						<a href="javascript:;">管理员列表</a>
 					</li>
 					<li>
-						<a href="javascript:;">管理员日志</a>
-					</li>
-					<li>
-						<a href="javascript:;">角色管理</a>
-					</li>
-					<li>
-						<a href="javascript:;">办事处列表</a>
-					</li>
-					<li>
 						<a href="javascript:;">供货商列表</a>
 					</li>
 				</ul>
@@ -235,13 +166,7 @@ Menu.template =`
 				店铺设置
 				<ul class="ul2">
 					<li>
-						<a href="javascript:;">店铺详情</a>
-					</li>
-					<li>
-						<a href="javascript:;">修改信息</a>
-					</li>
-					<li>
-						<a href="javascript:;">支付方式</a>
+						<a href="/html/eatery/eatery_add.html">店铺详情</a>
 					</li>
 					<li>
 						<a href="javascript:;">配送方式</a>
@@ -252,44 +177,9 @@ Menu.template =`
 					<li>
 						<a href="javascript:;">友情链接</a>
 					</li>
-					<li>
-						<a href="javascript:;">文件校验</a>
-					</li>
-					<li>
-						<a href="javascript:;">首页主广告管理</a>
-					</li>
-					<li>
-						<a href="javascript:;">授权证书</a>
-					</li>
-					<li>
-						<a href="javascript:;">站点地图</a>
-					</li>
 				</ul>
 			</li>
 			<li class="list10">
-				模板管理
-				<ul class="ul2">
-					<li>
-						<a href="javascript:;">模板选择</a>
-					</li>
-					<li>
-						<a href="javascript:;">设置模板</a>
-					</li>
-					<li>
-						<a href="javascript:;">库项目管理</a>
-					</li>
-					<li>
-						<a href="javascript:;">语言项编辑</a>
-					</li>
-					<li>
-						<a href="javascript:;">模板设置备份</a>
-					</li>
-					<li>
-						<a href="javascript:;">邮件模板</a>
-					</li>
-				</ul>
-			</li>
-			<li class="list11">
 				数据库管理
 				<ul class="ul2">
 					<li>
@@ -297,42 +187,6 @@ Menu.template =`
 					</li>
 					<li>
 						<a href="javascript:;">数据表优化</a>
-					</li>
-					<li>
-						<a href="javascript:;">SQL查询</a>
-					</li>
-				</ul>
-			</li>
-			<li class="list12">
-				短信管理
-				<ul class="ul2">
-					<li>
-						<a href="javascript:;">发送短信</a>
-					</li>
-					<li>
-						<a href="javascript:;">短信签名</a>
-					</li>
-				</ul>
-			</li>
-			<li class="list13">
-				推荐管理
-				<ul class="ul2">
-					<li>
-						<a href="javascript:;">推荐设置</a>
-					</li>
-					<li>
-						<a href="javascript:;">分成管理</a>
-					</li>
-				</ul>
-			</li>
-			<li class="list14">
-				移动版管理
-				<ul class="ul2">
-					<li>
-						<a href="javascript:;">邮件订阅管理</a>
-					</li>
-					<li>
-						<a href="javascript:;">关注管理</a>
 					</li>
 				</ul>
 			</li>

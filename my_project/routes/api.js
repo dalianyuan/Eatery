@@ -4,6 +4,7 @@ var userController = require('../controllers/user.js');
 var goodsController = require('../controllers/goods.js');
 var employeeController = require('../controllers/employee.js');
 var vipController = require('../controllers/vip.js');
+var orderController = require('../controllers/order.js');
 var upload = require('../utils/uploads.js');
 
 router.post( "/regist", userController.regist );
@@ -29,5 +30,11 @@ router.get( "/vip_remove", vipController.vip_remove );
 router.get( "/vip_info", vipController.vip_info );
 router.post( "/vip_update", vipController.vip_update );
 router.get( "/vip_search", vipController.vip_search );
+
+router.get( "/order_list", orderController.order_list );
+router.get( "/order_remove", orderController.order_remove );
+router.get( "/order_info", orderController.order_info );
+router.post( "/order_update", orderController.order_update );
+router.get( "/order_search", orderController.order_search );
 
 module.exports = router;
