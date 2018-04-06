@@ -63,7 +63,16 @@ h1>.span4>a:hover{
     color: #192E32;
 }
 
-
+#table{
+    border-collapse: collapse!important;
+    border-spacing: 1px;
+    border-color: grey;
+}
+#table tr{
+	display: block;
+	width: 100%;
+	border: 1px solid #ccc;
+}
 #form{
     padding: 10px;
     background: #fefefe;
@@ -96,9 +105,12 @@ h1>.span4>a:hover{
     line-height: 30px;
     vertical-align: top;
 }
+#form table .eatery_logo{
+	width: auto;
+}
 #form table input{
 	outline: 0;
-	height: 18px;
+	height: 16px;
 	padding: 1px 0;
 	box-sizing: content-box;
 }
@@ -208,7 +220,11 @@ h1>.span4>a:hover{
 	text-align: center;
 	padding: 3px 0;
 }
-
+.img-div{
+}
+.img-div>img{
+	width: 80%;
+}
 #footer{
     background: #f3f3f3 url(../images/th_bg.gif) repeat-x;
     border: 1px solid #ddd;

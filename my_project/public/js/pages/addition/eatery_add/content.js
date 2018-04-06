@@ -8,7 +8,7 @@ Content.template = `
 		<span class="span1 left">
 			<a href="javascript:;">Eatery后台管理中心 </a>
 		</span>
-		<span class="span2 left">&nbsp;-&nbsp; 店铺详情</span>
+		<span class="span2 left">&nbsp;-&nbsp; 店铺信息添加</span>
 	</h1>
 	<!--店铺详情title结束-->
 
@@ -27,7 +27,7 @@ Content.template = `
 					<tr>
 						<td class="label">店铺名称：</td>
 						<td>
-							<input class="left" type="text" name="eatery_name" id="eatery_name"/>
+							<input class="left eatery_name" type="text" value="Eatery" id="eatery_name"/>
 							<span class="xing">*</span>
 						</td>
 					</tr>
@@ -36,10 +36,10 @@ Content.template = `
 							<a href="javascript:;" class="tips" title="点击此处查看提示信息">
 								<img src="/images/notice.gif"/>
 							</a>
-							店铺描述：
+							店铺简介：
 						</td>
 						<td>
-							<textarea>一家只会做健康绿色食物的小eatery</textarea>
+							<textarea id="eatery_intro">一家只会做健康绿色食物的小eatery</textarea>
 						</td>
 					</tr>
 					<tr>
@@ -68,13 +68,7 @@ Content.template = `
 					<tr>
 						<td class="label">上传店铺logo：</td>
 						<td>
-							<input type="file" class="picFile" name="eatery_pic" id="eatery_pic" value="未选择任何文件"/>
-						</td>
-					</tr>
-					<tr>
-						<td class="label">上传店铺认证照：</td>
-						<td>
-							<input type="file" class="picFile" name="eatery_pic" id="eatery_pic" value="未选择任何文件"/>
+							<input type="file" class="picFile" name="eatery_logo" id="eatery_logo" value="未选择任何文件"/>
 						</td>
 					</tr>
 				</table>
@@ -97,68 +91,51 @@ Content.template = `
 	<!--店铺详情底部结束-->
 `;
 
-Content.ModelTemplate = `
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="exampleModalLabel">修改店铺详情信息</h4>
-	      </div>
-	      <div class="modal-body">
-	        <form>
-	          <div class="form-group">
-	            <label for="recipient-name" class="control-label">店铺详情姓名:</label>
-	            <input type="text" class="form-control employee_name" id="recipient-name">
-	          </div>
-	          <div class="form-group">
-	            <label for="recipient-price" class="control-label">性别:</label>
-	            <input type="text" class="form-control employee_sex" id="recipient-price">
-	          </div>
-	          <div class="form-group">
-	            <label for="recipient-count" class="control-label">出生日期:</label>
-	            <input type="text" class="form-control employee_birth" id="recipient-count">
-	          </div>
-	          <div class="form-group">
-	            <label for="recipient-name" class="control-label">联系电话:</label>
-	            <input type="text" class="form-control employee_tel" id="recipient-name">
-	          </div>
-	          <div class="form-group">
-	            <label for="recipient-price" class="control-label">家庭住址:</label>
-	            <input type="text" class="form-control employee_address" id="recipient-price">
-	          </div>
-	          <div class="form-group">
-	            <label for="recipient-count" class="control-label">职位:</label>
-	            <input type="text" class="form-control employee_type" id="recipient-count">
-	          </div>
-	          <div class="form-group">
-	            <label for="recipient-name" class="control-label">薪水:</label>
-	            <input type="text" class="form-control employee_salary" id="recipient-name">
-	          </div>
-	          <div class="form-group">
-	            <label for="recipient-price" class="control-label">入职时间:</label>
-	            <input type="text" class="form-control employee_time" id="recipient-price">
-	          </div>
-	        </form>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-	        <button type="button" class="btn btn-primary js-ok">确认修改</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-`;
-
-
 $.extend(Content.prototype, {
 	init: function(){
 		this.createDom();
+		this.bindEvents();
 	},
 	createDom: function(){
 		this.element = $(Content.template);
-		this.model = $(Content.ModelTemplate);
 		this.contentContainer.append(this.element);
-		this.contentContainer.append(this.model);
+	},
+	bindEvents: function(){
+		var subBtn = this.element.find(".js-submit");
+		subBtn.on("click", $.proxy(this.handleSubClick, this));
+	},
+	handleSubClick: function(){
+		var eatery_name = this.element.find("#eatery_name").val();
+		var eatery_intro = this.element.find("#eatery_intro").val();
+		var eatery_keywords = this.element.find("#eatery_keywords").val();
+		var eatery_address = this.element.find("#eatery_address").val();
+		var eatery_tel = this.element.find("#eatery_tel").val();
+		var eatery_logo = this.element.find("#eatery_logo")[0].files[0];
+		
+		var formData = new FormData();
+		formData.append( "eatery_name", eatery_name );
+		formData.append( "eatery_intro", eatery_intro );
+		formData.append( "eatery_keywords", eatery_keywords );
+		formData.append( "eatery_address", eatery_address );
+		formData.append( "eatery_tel", eatery_tel );
+		formData.append( "eatery_logo", eatery_logo );
+		
+		$.ajax({
+			type:"post",
+			url:"/api/eatery_add",
+			cache: false,
+			processData: false,
+			contentType: false,
+			data: formData,
+			success: $.proxy(this.handleDetailAddSuc, this)
+		});
+	},
+	handleDetailAddSuc: function(res){
+		if( res && res.ret && res.data && res.data.eatery_add ){
+			alert( "店铺信息添加成功,即将跳转到店铺详情页~" );
+			location.href = "/html/eatery/eatery_detail.html";
+		}else{
+			alert( "对不起,店铺信息添加失败!" );
+		}
 	}
 })

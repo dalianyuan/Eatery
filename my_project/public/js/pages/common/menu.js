@@ -166,10 +166,10 @@ Menu.template =`
 				店铺设置
 				<ul class="ul2">
 					<li>
-						<a href="/html/eatery/eatery_add.html">店铺详情</a>
+						<a href="/html/eatery/eatery_detail.html">店铺详情</a>
 					</li>
 					<li>
-						<a href="javascript:;">配送方式</a>
+						<a href="/html/eatery/eatery_add.html">店铺信息添加</a>
 					</li>
 					<li>
 						<a href="javascript:;">地区列表</a>
