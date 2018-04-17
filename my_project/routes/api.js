@@ -5,6 +5,7 @@ var goodsController = require('../controllers/goods.js');
 var employeeController = require('../controllers/employee.js');
 var vipController = require('../controllers/vip.js');
 var orderController = require('../controllers/order.js');
+var commentController = require('../controllers/comment.js');
 var detailController = require('../controllers/detail.js');
 var upload = require('../utils/uploads.js');
 
@@ -17,6 +18,16 @@ router.get( "/goods_remove", goodsController.goods_remove );
 router.get( "/goods_info", goodsController.goods_info );
 router.post( "/goods_update", goodsController.goods_update );
 router.get( "/goods_search", goodsController.goods_search );
+
+router.get( "/order_list", orderController.order_list );
+router.get( "/order_remove", orderController.order_remove );
+router.get( "/order_info", orderController.order_info );
+router.post( "/order_update", orderController.order_update );
+router.get( "/order_search", orderController.order_search );
+
+router.get( "/comment_list", commentController.comment_list );
+router.get( "/comment_remove", commentController.comment_remove );
+router.get( "/comment_search", commentController.comment_search );
 
 router.post( "/employee_add", upload.single('employee_pic'), employeeController.employee_add );
 router.get( "/employee_list", employeeController.employee_list );
@@ -31,12 +42,6 @@ router.get( "/vip_remove", vipController.vip_remove );
 router.get( "/vip_info", vipController.vip_info );
 router.post( "/vip_update", vipController.vip_update );
 router.get( "/vip_search", vipController.vip_search );
-
-router.get( "/order_list", orderController.order_list );
-router.get( "/order_remove", orderController.order_remove );
-router.get( "/order_info", orderController.order_info );
-router.post( "/order_update", orderController.order_update );
-router.get( "/order_search", orderController.order_search );
 
 router.post( "/eatery_add", upload.single('eatery_logo'), detailController.eatery_add );
 router.get( "/eatery_detail", detailController.eatery_detail );

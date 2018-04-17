@@ -11,7 +11,7 @@ Menu.template =`
 	</div>
 	<div id="menu">
 		<ul id="menu-ul">
-			<li class="list1 special">
+			<li class="list1">
 				商品管理
 				<ul class="ul2">
 					<li>
@@ -20,90 +20,28 @@ Menu.template =`
 					<li>
 						<a href="/html/goods/goods_add.html">添加新商品</a>
 					</li>
-					<li>
-						<a href="javascript:;">商品分类</a>
-					</li>
-					<li>
-						<a href="javascript:;">用户评论</a>
-					</li>
-					<li>
-						<a href="javascript:;">图片批量处理</a>
-					</li>
-					<li>
-						<a href="javascript:;">商品批量上传</a>
-					</li>
 				</ul>
 			</li>
+			
 			<li class="list2">
-				促销管理
-				<ul class="ul2">
-					<li>
-						<a href="javascript:;">夺宝奇兵</a>
-					</li>
-					<li>
-						<a href="javascript:;">红包类型</a>
-					</li>
-					<li>
-						<a href="javascript:;">商品包装</a>
-					</li>
-					<li>
-						<a href="javascript:;">祝福贺卡</a>
-					</li>
-					<li>
-						<a href="javascript:;">团购活动</a>
-					</li>
-					<li>
-						<a href="javascript:;">专题管理</a>
-					</li>
-					<li>
-						<a href="javascript:;">拍卖活动</a>
-					</li>
-					<li>
-						<a href="javascript:;">优惠活动</a>
-					</li>
-					<li>
-						<a href="javascript:;">批发管理</a>
-					</li>
-					<li>
-						<a href="javascript:;">超值礼包</a>
-					</li>
-					<li>
-						<a href="javascript:;">积分商城商品</a>
-					</li>
-				</ul>
-			</li>
-			<li class="list3 special">
 				订单管理
 				<ul class="ul2">
 					<li>
 						<a href="/html/order/order_list.html">订单列表</a>
 					</li>
-					<li>
-						<a href="javascript:;">订单打印</a>
-					</li>
-					<li>
-						<a href="javascript:;">缺货登记</a>
-					</li>
-					<li>
-						<a href="javascript:;">发货单列表</a>
-					</li>
-					<li>
-						<a href="javascript:;">退货单列表</a>
-					</li>
 				</ul>
 			</li>
-			<li class="list4">
-				广告管理
+			
+			<li class="list3">
+				评论管理
 				<ul class="ul2">
 					<li>
-						<a href="javascript:;">广告列表</a>
-					</li>
-					<li>
-						<a href="javascript:;">广告位置</a>
+						<a href="/html/comment/comment_list.html">评论列表</a>
 					</li>
 				</ul>
 			</li>
-			<li class="list5 special">
+			
+			<li class="list4">
 				职工管理
 				<ul class="ul2">
 					<li>
@@ -112,23 +50,10 @@ Menu.template =`
 					<li>
 						<a href="/html/employee/employee_add.html">添加职工</a>
 					</li>
-					<li>
-						<a href="javascript:;">销售概况</a>
-					</li>
-					<li>
-						<a href="javascript:;">销售明细</a>
-					</li>
 				</ul>
 			</li>
-			<li class="list6">
-				文章管理
-				<ul class="ul2">
-					<li>
-						<a href="javascript:;">文章分类</a>
-					</li>
-				</ul>
-			</li>
-			<li class="list7 special">
+			
+			<li class="list5">
 				会员管理
 				<ul class="ul2">
 					<li>
@@ -137,32 +62,10 @@ Menu.template =`
 					<li>
 						<a href="/html/vip/vip_add.html">添加会员</a>
 					</li>
-					<li>
-						<a href="javascript:;">会员等级</a>
-					</li>
-					<li>
-						<a href="javascript:;">会员留言</a>
-					</li>
-					<li>
-						<a href="javascript:;">充值和提现申请</a>
-					</li>
-					<li>
-						<a href="javascript:;">资金管理</a>
-					</li>
 				</ul>
 			</li>
-			<li class="list8">
-				权限管理
-				<ul class="ul2">
-					<li>
-						<a href="javascript:;">管理员列表</a>
-					</li>
-					<li>
-						<a href="javascript:;">供货商列表</a>
-					</li>
-				</ul>
-			</li>
-			<li class="list9 special">
+			
+			<li class="list6">
 				店铺设置
 				<ul class="ul2">
 					<li>
@@ -171,25 +74,9 @@ Menu.template =`
 					<li>
 						<a href="/html/eatery/eatery_add.html">店铺信息添加</a>
 					</li>
-					<li>
-						<a href="javascript:;">地区列表</a>
-					</li>
-					<li>
-						<a href="javascript:;">友情链接</a>
-					</li>
 				</ul>
 			</li>
-			<li class="list10">
-				数据库管理
-				<ul class="ul2">
-					<li>
-						<a href="javascript:;">数据备份</a>
-					</li>
-					<li>
-						<a href="javascript:;">数据表优化</a>
-					</li>
-				</ul>
-			</li>
+			
 		</ul>
 	</div>
 `;

@@ -95,6 +95,9 @@ h1>.span4>a:hover{
 #goods_img>img{
 	height: 70px;
 }
+#employee_pic>img{
+	height: 90px;
+}
 
 /*页码*/
 #page{

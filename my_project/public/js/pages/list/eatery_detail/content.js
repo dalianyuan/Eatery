@@ -1,7 +1,5 @@
 function Content(contentContainer){
 	this.contentContainer = contentContainer;
-	this.page = 1;
-	this.size = 5;
 	this.init();
 }
 Content.template = `

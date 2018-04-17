@@ -43,7 +43,6 @@ module.exports = {
 			}else{
 				console.log("数据库错误。");
 			}
-			
 		});
 	},
 	

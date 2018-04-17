@@ -18,11 +18,14 @@ html,body{
     width: 922px;
     position: absolute;
     right: 0px;
-    height: 75px;
+    height: 76px;
+}
+#menuTop ul{
+	height: 100%;
 }
 #menuTop li{
 	width: 82px;
-	height: 82px;
+	height: 100%;
 }
 #menuTop li:nth-child(1){
 	width: 102px;
@@ -34,7 +37,7 @@ html,body{
 }
 #menuTop li a{
     text-align: center;
-    height: 67px;
+    height: 100%;
     width: 82px;
     padding-top: 8px;
     display: block;
@@ -42,6 +45,7 @@ html,body{
 }
 #menuTop li a:hover{
 	background: #404040;
+	text-decoration:none;
 }
 #menuTop li a img{
 	margin: auto;

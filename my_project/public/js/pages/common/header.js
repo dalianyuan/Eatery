@@ -98,7 +98,6 @@ Header.template = `
 				<a href="javascript:;">
 					<img src="/images/index-11_09.png"/>
 					<span>商品管理</span>
-					<span class="num">34</span>
 				</a>
 				<span class="fenge"></span>
 			</li>
@@ -106,7 +105,6 @@ Header.template = `
 				<a href="javascript:;">
 					<img src="/images/dd.png"/>
 					<span>订单管理</span>
-					<span class="num">27</span>
 				</a>
 				<span class="fenge"></span>
 			</li>
@@ -114,7 +112,6 @@ Header.template = `
 				<a href="javascript:;">
 					<img src="/images/index-11_13.png"/>
 					<span>广告管理</span>
-					<span class="num">11</span>
 				</a>
 				<span class="fenge"></span>
 			</li>
@@ -122,7 +119,6 @@ Header.template = `
 				<a href="javascript:;">
 					<img src="/images/index-11_19.png"/>
 					<span>用户评论</span>
-					<span class="num">20</span>
 				</a>
 				<span class="fenge"></span>
 			</li>
@@ -149,6 +145,9 @@ Header.template = `
 			</li>
 			<li class="left">
 				<a href="javascript:;">商品类型</a>
+			</li>
+			<li class="left">
+				<a href="javascript:;">权限管理</a>
 			</li>
 		</ul>
 	</div>

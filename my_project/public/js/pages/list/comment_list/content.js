@@ -5,36 +5,32 @@ function Content(contentContainer){
 	this.init();
 }
 Content.template = `
-	<!--订单列表title开始-->
+	<!--评论列表title开始-->
 	<h1>
 		<span class="span1 left">
 			<a href="javascript:;">Eatery后台管理中心 </a>
 		</span>
-		<span class="span2 left">&nbsp;-&nbsp; 订单列表</span>
+		<span class="span2 left">&nbsp;-&nbsp; 评论列表</span>
 		<span class="span3 left">
 			<a href="javascript:;">
 				<img src="/images/jnsy.png"/>
 			</a>
 		</span>
 		<span class="span4 right">
-			<a href="javascript:;">新订单</a>
+			<a href="javascript:;">新评论</a>
 		</span>
 	</h1>
-	<!--订单列表title结束-->
+	<!--评论列表title结束-->
 
-	<!--订单列表搜索栏开始-->
+	<!--评论列表搜索栏开始-->
 	<div id="form-div">
 		<!--<form id="form" action="/search_goods" method="post" enctype="multipart/form-data">-->
 			<img src="/images/icon_search.gif" />
 			<select name="type">
 				<option value="">所有分类</option>
-				<option value="">川菜</option>
-				<option value="">东北炖菜</option>
-			</select>
-			<select name="mark">
-				<option value="">地区</option>
-				<option value="">北京</option>
-				<option value="">大连</option>
+				<option value="">好评</option>
+				<option value="">中评</option>
+				<option value="">差评</option>
 			</select>
 			<select name="all">
 				<option value="">全部</option>
@@ -43,25 +39,22 @@ Content.template = `
 				<option value="">热销</option>
 			</select>
 			关键字
-			<input type="text" class="order_keywords" id="order_keywords" />
+			<input type="text" class="comment_keywords" id="comment_keywords" />
 			<button id="btn" class="js-search">搜索</button>
 		<!--</form>-->
 	</div>
-	<!--订单列表搜索栏结束-->
+	<!--评论列表搜索栏结束-->
 
-	<!--订单列表显示开始-->
+	<!--评论列表显示开始-->
 	<div id="list-div">
 		<table id="table" cellpadding="3" cellspacing="1">
 			<thead>
 				<tr>
-					<th>订单编号</th>
-					<th>订单名称</th>
-					<th>总价格</th>
-					<th>用户姓名</th>
-					<th>电话</th>
-					<th>地址</th>
-					<th>下单时间</th>
-					<th>状态</th>
+					<th>评论编号</th>
+					<th>商品</th>
+					<th>评论内容</th>
+					<th>评论用户名</th>
+					<th>评论时间</th>
 					<th>操作</th>
 				</tr>
 			</thead>
@@ -81,13 +74,13 @@ Content.template = `
 		<!--列表下的页码结束-->
 
 	</div>
-	<!--订单列表显示结束-->
+	<!--评论列表显示结束-->
 
-	<!--订单列表底部结束-->
+	<!--评论列表底部结束-->
 	<div id="footer">
 		共执行 9 个查询，用时 0.024190 秒，Gzip 已禁用，内存占用 3.580 MB <br/> 版权所有 © 2005-2018 上海商派软件有限公司，并保留所有权利。
 	</div>
-	<!--订单列表底部结束-->
+	<!--评论列表底部结束-->
 `;
 
 Content.ModelTemplate = `
@@ -96,27 +89,19 @@ Content.ModelTemplate = `
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="exampleModalLabel">修改订单信息</h4>
+	        <h4 class="modal-title" id="exampleModalLabel">回复评论</h4>
 	      </div>
 	      <div class="modal-body">
 	        <form>
 	          <div class="form-group">
-	            <label for="recipient-count" class="control-label">用户电话:</label>
-	            <input type="text" class="form-control user_tel" id="recipient-count">
-	          </div>
-	          <div class="form-group">
-	            <label for="recipient-name" class="control-label">地址:</label>
-	            <input type="text" class="form-control user_address" id="recipient-name">
-	          </div>
-	          <div class="form-group">
-	            <label for="recipient-name" class="control-label">订单状态:</label>
-	            <input type="text" class="form-control order_status" id="recipient-name">
+	            <label for="recipient-count" class="control-label">商家说:</label>
+	            <textarea class="form-control" id="recipient-count"></textarea>
 	          </div>
 	        </form>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-	        <button type="button" class="btn btn-primary js-ok">确认修改</button>
+	        <button type="button" class="btn btn-primary js-ok">回复</button>
 	      </div>
 	    </div>
 	  </div>
@@ -134,14 +119,11 @@ $.extend(Content.prototype, {
 		this.model = $(Content.ModelTemplate);
 		this.contentContainer.append(this.element);
 		this.contentContainer.append(this.model);
-		this.user_tel = this.model.find(".user_tel");
-		this.user_address = this.model.find(".user_address");
-		this.order_status = this.model.find(".order_status");
 	},
 	showList: function(){
 		$.ajax({
 			type: "get",
-			url: "/api/order_list",
+			url: "/api/comment_list",
 			data: {
 				page: this.page,
 				size: this.size
@@ -171,31 +153,22 @@ $.extend(Content.prototype, {
 		for( var i = 0; i < res.length; i++ ){
 			tbodyStr += `<tr>
 				<td>
-					${res[i].order_num}
+					${res[i].comment_num}
 				</td>
 				<td>
-					${res[i].order_name}
+					${res[i].goods_name}
 				</td>
 				<td>
-					￥${res[i].order_price}
+					${res[i].comment_text}
 				</td>
 				<td>
 					${res[i].user_name}
 				</td>
 				<td>
-					${res[i].user_tel}
-				</td>
-				<td>
-					${res[i].user_address}
-				</td>
-				<td>
 					${res[i].create_Date}
 				</td>
 				<td>
-					${res[i].order_status}
-				</td>
-				<td>
-					<a href="javascript:;" title="修改">
+					<a href="javascript:;" title="回复">
 						<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
 						data-id="${res[i]._id}" class="js-change" src="/images/icon_edit.gif" />
 					</a>
@@ -217,11 +190,11 @@ $.extend(Content.prototype, {
 	bindEvents: function(){
 		var pageContainer = this.element.find(".js-pagination");
 		var operateContainer = this.element.find(".js-tbody");
-		var updateBtn = this.model.find(".js-ok");
+		var answerBtn = this.model.find(".js-ok");
 		var searchBtn = this.element.find(".js-search");
 		pageContainer.on("click", $.proxy(this.handleChangePage, this));
 		operateContainer.on("click", $.proxy(this.handleItemOperate, this));
-		updateBtn.on("click", $.proxy(this.handleItemUpdate, this));
+		answerBtn.on("click", $.proxy(this.handleItemAnswer, this));
 		searchBtn.on("click", $.proxy(this.handleItemSearch, this));
 	},
 	handleChangePage: function(e){
@@ -231,20 +204,16 @@ $.extend(Content.prototype, {
 	handleItemOperate: function(e){
 		var target = $(e.target);
 		var isDelClick = target.hasClass("js-del");
-		var isChangeClick = target.hasClass("js-change");
 		if(isDelClick){
-			if(confirm("确认删除该订单吗?")){
+			if(confirm("确认删除该评论吗?")){
 				this.delItem( target.data("id") );
 			}
-		}
-		if(isChangeClick){
-			this.changeItem( target.data("id") );
 		}
 	},
 	delItem: function(id){
 		$.ajax({
 			type:"get",
-			url:"/api/order_remove",
+			url:"/api/comment_remove",
 			data: {
 				id: id
 			},
@@ -252,65 +221,25 @@ $.extend(Content.prototype, {
 		});
 	},
 	handleItemDelSuc: function(res){
-		if(res && res.data && res.data.order_remove){
+		if(res && res.data && res.data.comment_remove){
 			this.showList();
 		}else{
 			alert("数据删除失败!");
 		}
 	},
-	changeItem: function(id){
-		$.ajax({
-			type:"get",
-			url:"/api/order_info",
-			data: {
-				id: id
-			},
-			success: $.proxy(this.handleItemChangeSuc, this)
-		});
-	},
-	handleItemChangeSuc: function(res){
-		if(res && res.ret && res.data && res.data.order_info){
-			var info = res.data.order_info;
-			this.user_tel.val(info.user_tel);
-			this.user_address.val(info.user_address);
-			this.order_status.val(info.order_status);
-			this.id = info._id;
-		}
-	},
-	handleItemUpdate: function(){
-		var user_tel = this.user_tel.val();
-		var user_address = this.user_address.val();
-		var order_status = this.order_status.val();
-		
-		$.ajax({
-			type:"post",
-			url:"/api/order_update",
-			data: {
-				user_tel: user_tel,
-				user_address: user_address,
-				order_status: order_status,
-				order_id: this.id
-			},
-			success: $.proxy(this.handleItemUpdateSuc, this)
-		});
-	},
-	handleItemUpdateSuc: function(res){
-		if( res && res.ret && res.data && res.data.order_update ){
-			$(".modal-backdrop").hide();
-			this.model.hide();
-			this.showList();
-			alert( "订单信息修改成功!" );
-		}else{
-			alert( "对不起,订单信息修改出现错误。" );
-		}
+	handleItemAnswer: function(){
+		alert("评论回复成功！");
+		$(".modal-backdrop").hide();
+		this.model.hide();
+		this.showList();
 	},
 	handleItemSearch: function(){
-		var order_keywords = this.element.find(".order_keywords").val();
+		var comment_keywords = this.element.find(".comment_keywords").val();
 		$.ajax({
 			type:"get",
-			url:"/api/order_search",
+			url:"/api/comment_search",
 			data: {
-				order_keywords: order_keywords,
+				comment_keywords: comment_keywords,
 				page: this.page,
 				size: this.size
 			},
@@ -321,8 +250,8 @@ $.extend(Content.prototype, {
 		if(res && res.data && res.data.list.length > 0){
 			this.handleOrderListSuc(res);
 		}else{
-			alert("对不起,您搜索的订单不存在。");
-			this.element.find(".order_keywords").val("");
+			alert("对不起,您搜索的评论不存在。");
+			this.element.find(".comment_keywords").val("");
 		}
 	}
 })
